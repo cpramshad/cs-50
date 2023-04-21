@@ -2,22 +2,14 @@
 
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "dictionary.h"
 
-// Represents a node in a hash table
-typedef struct node
-{
-    char word[LENGTH + 1];
-    struct node *next;
-}
-node;
+// Global variables
+node* hashTable[HASH_SIZE];
+unsigned int dictionary_size = 0;
 
-// TODO: Choose number of buckets in hash table
-const unsigned int N = 26;
-
-// Hash table
-node *table[N];
 
 // Returns true if word is in dictionary, else false
 bool check(const char *word)
@@ -26,16 +18,34 @@ bool check(const char *word)
     return false;
 }
 
-// Hashes word to a number
-unsigned int hash(const char *word)
+// Hash function
+unsigned long hash(char* str)
 {
-    // TODO: Improve this hash function
-    return toupper(word[0]) - 'A';
+  unsigned long hash = 5381;
+  int c;
+  while ((c = *str++) != 0)
+    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  return hash % HASH_SIZE;
 }
 
 // Loads dictionary into memory, returning true if successful, else false
 bool load(const char *dictionary)
 {
+    // Open dictionary file
+    FILE *dict_pointer = fopen(dictionary, "r");
+
+    // Check if null
+    if (dict_pointer == NULL)
+    {
+        printf("Unable to open %s\n", dictionary);
+        return false;
+    }
+
+    // Initialise word array
+    char next_word[LENGTH + 1];
+
+    printf("load function\n");
+
     // TODO
     return false;
 }
