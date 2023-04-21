@@ -1,9 +1,16 @@
-// Implements a dictionary's functionality
-
-#include <ctype.h>
+/****************************************************************************
+ * dictionary.c
+ *
+ * Computer Science 50
+ * Problem Set 5
+ *
+ * Implements a dictionary's functionality.
+ ***************************************************************************/
 #include <stdbool.h>
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 #include "dictionary.h"
 
 // Global variables
@@ -46,16 +53,6 @@ bool check(const char* word)
 
     // If end of list is reached, return false
     return false;
-}
-
-// Hash function
-unsigned long hash(char* str)
-{
-  unsigned long hash = 5381;
-  int c;
-  while ((c = *str++) != 0)
-    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-  return hash % HASH_SIZE;
 }
 
 /**
@@ -151,4 +148,16 @@ bool unload(void)
         }
     }
     return true;
+}
+
+/**
+ * djb2 Hash function
+ **/
+unsigned long hash(char* str)
+{
+  unsigned long hash = 5381;
+  int c;
+  while ((c = *str++) != 0)
+    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  return hash % HASH_SIZE;
 }
